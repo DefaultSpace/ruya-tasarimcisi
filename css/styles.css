@@ -1,0 +1,689 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Peaceful Theme */
+  --peaceful-primary: #4f7df3;
+  --peaceful-secondary: #a3b8ff;
+  --peaceful-accent: #d4ddff;
+  --peaceful-text: #2c3e50;
+  --peaceful-light: #f0f4ff;
+  
+  /* Cosmic Theme */
+  --cosmic-primary: #8a2be2;
+  --cosmic-secondary: #b14cf0;
+  --cosmic-accent: #d896ff;
+  --cosmic-text: #f0e6ff;
+  --cosmic-light: #1a0b2e;
+  
+  /* Minimal Theme */
+  --minimal-primary: #757575;
+  --minimal-secondary: #bdbdbd;
+  --minimal-accent: #e0e0e0;
+  --minimal-text: #424242;
+  --minimal-light: #f5f5f5;
+  
+  /* Gothic Theme */
+  --gothic-primary: #800020;
+  --gothic-secondary: #a52a2a;
+  --gothic-accent: #d2691e;
+  --gothic-text: #f8f8ff;
+  --gothic-light: #2a0a0a;
+  
+  /* Childhood Theme */
+  --childhood-primary: #ff6b6b;
+  --childhood-secondary: #ffb8b8;
+  --childhood-accent: #ffd8d8;
+  --childhood-text: #5a3e36;
+  --childhood-light: #fff0f0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.5s ease;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: var(--peaceful-text);
+  line-height: 1.6;
+}
+
+/* Theme Backgrounds */
+body.theme-peaceful {
+  background-image: url('../images/bg-peaceful.jpeg');
+  color: var(--peaceful-text);
+}
+
+body.theme-cosmic {
+  background-image: url('../images/bg-cosmic.webp');
+  color: var(--cosmic-text);
+}
+
+body.theme-minimal {
+  background-image: url('../images/bg-minimal.jpeg');
+  color: var(--minimal-text);
+}
+
+body.theme-gothic {
+  background-image: url('../images/bg-gothic.webp');
+  color: var(--gothic-text);
+}
+
+body.theme-childhood {
+  background-image: url('../images/bg-childhood.webp');
+  color: var(--childhood-text);
+}
+
+/* Header Styles */
+header {
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dream Cards */
+.dream-card {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  padding: 28px;
+  margin-bottom: 28px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dream-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 30px -12px rgba(0, 0, 0, 0.15), 0 10px 15px -5px rgba(0, 0, 0, 0.08);
+}
+
+/* Theme-specific Dream Cards */
+.dream-card-peaceful {
+  border-left: 4px solid var(--peaceful-primary);
+}
+
+.dream-card-cosmic {
+  border-left: 4px solid var(--cosmic-primary);
+  background-color: rgba(26, 11, 46, 0.8);
+  color: var(--cosmic-text);
+}
+
+.dream-card-minimal {
+  border-left: 4px solid var(--minimal-primary);
+}
+
+.dream-card-gothic {
+  border-left: 4px solid var(--gothic-primary);
+  background-color: rgba(42, 10, 10, 0.8);
+  color: var(--gothic-text);
+}
+
+.dream-card-childhood {
+  border-left: 4px solid var(--childhood-primary);
+}
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* Theme-specific Buttons */
+.btn-peaceful {
+  background-color: var(--peaceful-primary);
+  color: white;
+}
+
+.btn-peaceful:hover {
+  background-color: #5a79ec;
+}
+
+.btn-cosmic {
+  background-color: var(--cosmic-primary);
+  color: white;
+}
+
+.btn-cosmic:hover {
+  background-color: #7b26c9;
+}
+
+.btn-minimal {
+  background-color: var(--minimal-primary);
+  color: white;
+}
+
+.btn-minimal:hover {
+  background-color: #8a8a8a;
+}
+
+.btn-gothic {
+  background-color: var(--gothic-primary);
+  color: white;
+}
+
+.btn-gothic:hover {
+  background-color: #6a001a;
+}
+
+.btn-childhood {
+  background-color: var(--childhood-primary);
+  color: white;
+}
+
+.btn-childhood:hover {
+  background-color: #ff5252;
+}
+
+/* Input Fields */
+.input-field {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  resize: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.input-field:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 125, 243, 0.2);
+  border-color: var(--peaceful-primary);
+}
+
+.input-field::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+  font-weight: 300;
+}
+
+/* Theme-specific Input Fields */
+.input-peaceful {
+  border-color: var(--peaceful-secondary);
+}
+
+.input-peaceful:focus {
+  box-shadow: 0 0 0 3px rgba(107, 138, 253, 0.3);
+}
+
+.input-cosmic {
+  border-color: var(--cosmic-secondary);
+  background-color: rgba(26, 11, 46, 0.5);
+  color: var(--cosmic-text);
+}
+
+.input-cosmic:focus {
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.3);
+}
+
+.input-minimal {
+  border-color: var(--minimal-secondary);
+}
+
+.input-minimal:focus {
+  box-shadow: 0 0 0 3px rgba(158, 158, 158, 0.3);
+}
+
+.input-gothic {
+  border-color: var(--gothic-secondary);
+  background-color: rgba(42, 10, 10, 0.5);
+  color: var(--gothic-text);
+}
+
+.input-gothic:focus {
+  box-shadow: 0 0 0 3px rgba(128, 0, 32, 0.3);
+}
+
+.input-childhood {
+  border-color: var(--childhood-secondary);
+}
+
+.input-childhood:focus {
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3);
+}
+
+/* Theme Color Buttons */
+.bg-peaceful {
+  background-color: var(--peaceful-primary);
+}
+
+.bg-cosmic {
+  background-color: var(--cosmic-primary);
+}
+
+.bg-minimal {
+  background-color: var(--minimal-primary);
+}
+
+.bg-gothic {
+  background-color: var(--gothic-primary);
+}
+
+.bg-childhood {
+  background-color: var(--childhood-primary);
+}
+
+/* Animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  border-top-color: var(--peaceful-primary);
+  width: 3.5rem;
+  height: 3.5rem;
+  animation: spin 1.2s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.theme-cosmic .spinner {
+  border-top-color: var(--cosmic-primary);
+}
+
+.theme-minimal .spinner {
+  border-top-color: var(--minimal-primary);
+}
+
+.theme-gothic .spinner {
+  border-top-color: var(--gothic-primary);
+}
+
+.theme-childhood .spinner {
+  border-top-color: var(--childhood-primary);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Feature Cards */
+.feature-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 20px -10px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: 0.6s;
+}
+
+.feature-card:hover::before {
+  transform: translateX(100%);
+}
+
+/* Mode Selection */
+.mode-option {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-option:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px -5px rgba(0, 0, 0, 0.1);
+}
+
+.selected-mode {
+  border-width: 2px !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.mode-option::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--peaceful-primary);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.mode-option:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dream-card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 0.7rem 1rem;
+  }
+  
+  h1, h2 {
+    font-size: 1.5rem;
+  }
+  
+  .mode-option {
+    padding: 12px;
+  }
+  
+  .feature-card {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dream-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .input-field {
+    padding: 0.7rem 0.9rem;
+  }
+  
+  header {
+    padding: 0.8rem;
+  }
+}
+
+/* Footer */
+footer {
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+/* Notification */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: 350px;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification-success {
+  border-left: 4px solid #10b981;
+}
+
+.notification-error {
+  border-left: 4px solid #ef4444;
+}
+
+/* Music Player */
+.music-player {
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.music-player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.music-progress {
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 12px 0;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.music-progress-bar {
+  height: 100%;
+  background-color: var(--peaceful-primary);
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 5px rgba(79, 125, 243, 0.5);
+}
+
+.theme-cosmic .music-progress-bar {
+  background-color: var(--cosmic-primary);
+  box-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+}
+
+.theme-minimal .music-progress-bar {
+  background-color: var(--minimal-primary);
+  box-shadow: 0 0 5px rgba(117, 117, 117, 0.5);
+}
+
+.theme-gothic .music-progress-bar {
+  background-color: var(--gothic-primary);
+  box-shadow: 0 0 5px rgba(128, 0, 32, 0.5);
+}
+
+.theme-childhood .music-progress-bar {
+  background-color: var(--childhood-primary);
+  box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+}
+/* Dream Notes */
+.notes-container {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Dream Image */
+.dream-image {
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.dream-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.dream-image:hover img {
+  transform: scale(1.02);
+}
+
+/* Dream Analysis */
+.analysis-item {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.analysis-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.analysis-item:last-child {
+  border-bottom: none;
+}
+
+/* Dream Series */
+.series-episode {
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.series-episode:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.series-episode.active {
+  border-left: 4px solid var(--peaceful-primary);
+}
+
+.theme-cosmic .series-episode.active {
+  border-left-color: var(--cosmic-primary);
+}
+
+.theme-minimal .series-episode.active {
+  border-left-color: var(--minimal-primary);
+}
+
+.theme-gothic .series-episode.active {
+  border-left-color: var(--gothic-primary);
+}
+
+.theme-childhood .series-episode.active {
+  border-left-color: var(--childhood-primary);
+}
+
+/* Lucid Dream Designer */
+.lucid-option {
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lucid-option:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.lucid-option.selected {
+  background-color: var(--peaceful-primary);
+  color: white;
+}
+
+.theme-cosmic .lucid-option.selected {
+  background-color: var(--cosmic-primary);
+}
+
+.theme-minimal .lucid-option.selected {
+  background-color: var(--minimal-primary);
+}
+
+.theme-gothic .lucid-option.selected {
+  background-color: var(--gothic-primary);
+}
+
+.theme-childhood .lucid-option.selected {
+  background-color: var(--childhood-primary);
+}

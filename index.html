@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rüya Tasarımcısı</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Rüya Tasarımcısı ile düşüncelerinizi rüyalara dönüştürün. Kendi rüyalarınızı tasarlayın, analiz edin ve kütüphanenizde saklayın.">
+    <meta name="theme-color" content="#4f7df3">
+</head>
+<body class="min-h-screen theme-peaceful" id="app-body">
+    <header class="p-4 bg-black/10 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center animate-fade-in">
+                <span class="text-3xl mr-2 animate-float">✨</span>
+                <h1 class="text-2xl font-bold">Rüya Tasarımcısı</h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button id="api-settings-btn" class="p-2 rounded-full hover:bg-black/10 transition-colors" title="API Ayarları">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button id="theme-peaceful" class="w-8 h-8 rounded-full bg-peaceful shadow-md hover:scale-110 transition-transform" title="Huzurlu Tema"></button>
+                <button id="theme-cosmic" class="w-8 h-8 rounded-full bg-cosmic shadow-md hover:scale-110 transition-transform" title="Kozmik Tema"></button>
+                <button id="theme-minimal" class="w-8 h-8 rounded-full bg-minimal shadow-md hover:scale-110 transition-transform" title="Minimal Tema"></button>
+                <button id="theme-gothic" class="w-8 h-8 rounded-full bg-gothic shadow-md hover:scale-110 transition-transform" title="Gotik Tema"></button>
+                <button id="theme-childhood" class="w-8 h-8 rounded-full bg-childhood shadow-md hover:scale-110 transition-transform" title="Çocukluk Tema"></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- API Settings Modal (initially hidden) -->
+            <div id="api-settings-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden animate-fade-in">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 relative">
+                    <button id="close-api-settings" class="absolute top-4 right-4 p-2 rounded-full hover:bg-black/10 transition-colors">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-key mr-2"></i> Gemini API Ayarları
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <p class="text-sm mb-4">
+                            Gelişmiş özellikleri kullanabilmek için kendi Gemini API anahtarınızı girmeniz gerekmektedir. 
+                            API anahtarınız yerel olarak tarayıcınızda saklanır ve hiçbir sunucuya gönderilmez.
+                        </p>
+                        
+                        <label for="gemini-api-key" class="block mb-2 font-medium">
+                            Gemini API Anahtarı
+                        </label>
+                        <input
+                            type="text"
+                            id="gemini-api-key"
+                            placeholder="API anahtarınızı girin..."
+                            class="input-field input-peaceful w-full"
+                        />
+                        <div class="mt-2 text-sm text-gray-500 flex items-center">
+                            <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                            <span>API anahtarını <a href="https://makersuite.google.com/app/apikey" target="_blank" class="text-blue-500 hover:underline">Google AI Studio</a>'dan alabilirsiniz.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button id="save-api-key" class="btn btn-peaceful px-4 py-2">
+                            <i class="fas fa-save mr-1"></i> Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dream Creator -->
+            <div class="dream-card dream-card-peaceful mb-6 animate-fade-in" id="dream-creator-card">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="mr-2 animate-float">🌱</span> Rüya Tohumu Oluştur
+                </h2>
+                
+                <form id="dream-form" class="space-y-6">
+                    <div>
+                        <label for="seed" class="block mb-2 font-medium">
+                            Rüya Tohumu
+                        </label>
+                        <textarea
+                            id="seed"
+                            placeholder="Uyumadan önceki düşüncenizi veya hissinizi yazın..."
+                            class="input-field input-peaceful h-32"
+                            required
+                        ></textarea>
+                        <div class="mt-2 text-sm text-gray-500 flex items-center">
+                            <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                            <span>İpucu: Detaylı ve duygusal ifadeler daha zengin rüyalar oluşturur.</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block mb-2 font-medium">
+                            Rüya Modu
+                        </label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div 
+                                class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer mode-option selected-mode"
+                                data-mode="classic"
+                            >
+                                <div class="font-medium flex items-center"><i class="fas fa-moon mr-2"></i>Klasik Rüya</div>
+                                <div class="text-sm opacity-70">Normal bir rüya akışı.</div>
+                            </div>
+                            
+                            <div 
+                                class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer mode-option"
+                                data-mode="lucid"
+                            >
+                                <div class="font-medium flex items-center"><i class="fas fa-brain mr-2"></i>Lucid Rüya</div>
+                                <div class="text-sm opacity-70">Kullanıcının yönlendirdiği, bilinçli rüyalar.</div>
+                            </div>
+                            
+                            <div 
+                                class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer mode-option"
+                                data-mode="nightmare"
+                            >
+                                <div class="font-medium flex items-center"><i class="fas fa-ghost mr-2"></i>Kabus Dönüşümü</div>
+                                <div class="text-sm opacity-70">Korku hissi varsa, onu pozitif bir rüyaya dönüştürür.</div>
+                            </div>
+                            
+                            <div 
+                                class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer mode-option"
+                                data-mode="complex"
+                            >
+                                <div class="font-medium flex items-center"><i class="fas fa-rocket mr-2"></i>Karmaşık Evren</div>
+                                <div class="text-sm opacity-70">Bilim kurgu/fantastik içerikli rüyalar.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button 
+                            type="submit" 
+                            class="btn btn-peaceful px-8 py-3"
+                            id="generate-dream-btn"
+                        >
+                            <i class="fas fa-magic mr-2"></i> Rüyayı Oluştur
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Dream Viewer (initially hidden) -->
+            <div class="dream-card dream-card-peaceful mb-6 hidden animate-fade-in" id="dream-viewer-card">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <span class="mr-2 animate-float">🌙</span> Rüya Görüntüleyici
+                    </h2>
+                    <div class="flex items-center">
+                        <button id="back-to-creator" class="p-2 rounded-full hover:bg-black/10">
+                            <i class="fas fa-arrow-left"></i> Geri
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="text-sm opacity-70">Rüya Tohumu:</div>
+                    <div id="dream-seed" class="font-medium"></div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="text-sm opacity-70">Rüya İçeriği:</div>
+                    <div id="dream-content" class="p-4 rounded-lg bg-black/5 whitespace-pre-line"></div>
+                </div>
+
+                <!-- Dream Image (initially hidden) -->
+                <div id="dream-image-container" class="dream-image hidden">
+                    <img id="dream-image" src="" alt="Rüya görseli" class="w-full h-auto">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button id="music-btn" class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful text-center transition-all hover:shadow-md hover:-translate-y-1">
+                        <div class="text-2xl mb-2 animate-pulse">🎵</div>
+                        <div class="font-medium">Uyku Müziği</div>
+                    </button>
+                    
+                    <button id="notes-btn" class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful text-center transition-all hover:shadow-md hover:-translate-y-1">
+                        <div class="text-2xl mb-2 animate-pulse">📝</div>
+                        <div class="font-medium">Rüya Notları</div>
+                    </button>
+                    
+                    <button id="replay-btn" class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful text-center transition-all hover:shadow-md hover:-translate-y-1">
+                        <div class="text-2xl mb-2 animate-pulse">🔄</div>
+                        <div class="font-medium">Rüyayı Tekrar Oynat</div>
+                    </button>
+                </div>
+
+                <!-- Music Player (initially hidden) -->
+                <div id="music-player" class="music-player hidden mt-4 animate-fade-in">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="font-medium" id="music-title">Huzurlu Uyku Müziği</div>
+                            <div class="text-sm opacity-70">Rüyanıza uygun müzik</div>
+                        </div>
+                        <button id="close-music-player" class="p-2 rounded-full hover:bg-black/10 transition-colors">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="music-progress mt-2">
+                        <div class="music-progress-bar" id="music-progress-bar"></div>
+                    </div>
+                    <div class="music-player-controls">
+                        <button id="prev-track" class="p-2 rounded-full hover:bg-black/10 transition-colors">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button id="play-pause" class="p-3 rounded-full hover:bg-black/10 transition-colors">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button id="next-track" class="p-2 rounded-full hover:bg-black/10 transition-colors">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <div class="text-sm" id="music-time">0:00 / 3:00</div>
+                    </div>
+                </div>
+
+                <!-- Dream Notes (initially hidden) -->
+                <div id="notes-container" class="notes-container hidden mt-4 animate-fade-in">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="font-medium">Rüya Notları</div>
+                        <button id="close-notes" class="p-2 rounded-full hover:bg-black/10 transition-colors">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <textarea 
+                        id="dream-notes" 
+                        class="input-field input-peaceful h-32 w-full" 
+                        placeholder="Rüyanız hakkında notlar ekleyin..."
+                    ></textarea>
+                    <div class="text-right mt-2">
+                        <button id="save-notes" class="btn btn-peaceful px-4 py-2">
+                            <i class="fas fa-save mr-1"></i> Kaydet
+                        </button>
+                    </div>
+                    <div class="mt-2 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                        <span>İpucu: Rüyanızın önemli detaylarını ve hissettirdiklerini not alın.</span>
+                    </div>
+                </div>
+
+                <!-- Dream Replay Options (initially hidden) -->
+                <div id="replay-options" class="hidden mt-4 animate-fade-in p-4 bg-black/5 rounded-lg">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="font-medium">Tekrar Oynatma Perspektifi</div>
+                        <button id="close-replay" class="p-2 rounded-full hover:bg-black/10 transition-colors">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                        <div 
+                            class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer replay-option selected-replay transition-all hover:shadow-md"
+                            data-perspective="first"
+                        >
+                            <div class="font-medium flex items-center"><i class="fas fa-eye mr-2"></i>Birinci Şahıs</div>
+                            <div class="text-sm opacity-70">Kendi gözünüzden</div>
+                        </div>
+                        
+                        <div 
+                            class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer replay-option transition-all hover:shadow-md"
+                            data-perspective="third"
+                        >
+                            <div class="font-medium flex items-center"><i class="fas fa-user mr-2"></i>Üçüncü Şahıs</div>
+                            <div class="text-sm opacity-70">Dışarıdan kendinizi izleyerek</div>
+                        </div>
+                        
+                        <div 
+                            class="p-3 rounded-lg border border-peaceful-light/30 hover:border-peaceful cursor-pointer replay-option transition-all hover:shadow-md"
+                            data-perspective="observer"
+                        >
+                            <div class="font-medium flex items-center"><i class="fas fa-binoculars mr-2"></i>Gözlemci</div>
+                            <div class="text-sm opacity-70">Tarafsız bir bakış açısıyla</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between">
+                        <button id="close-replay" class="btn btn-peaceful bg-black/10 hover:bg-black/20">
+                            <i class="fas fa-times mr-2"></i> İptal
+                        </button>
+                        <button id="start-replay" class="btn btn-peaceful">
+                            <i class="fas fa-play mr-2"></i> Başlat
+                        </button>
+                    </div>
+                    
+                    <div class="mt-3 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                        <span>İpucu: Farklı perspektifler rüyanızı yeni açılardan görmenizi sağlar.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gelişmiş Özellikler -->
+            <div class="dream-card dream-card-peaceful mb-6 animate-fade-in">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="mr-2 animate-float">✨</span> Gelişmiş Özellikler
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="dream-image-btn" class="p-4 rounded-lg border border-peaceful-light/30 hover:border-peaceful transition-all cursor-pointer feature-card">
+                        <div class="text-2xl mb-2 animate-pulse">🎨</div>
+                        <div class="font-medium">Rüya Görseli Oluşturucu</div>
+                        <div class="text-sm opacity-70">Rüyanızı görselleştirin</div>
+                    </div>
+                    
+                    <div id="dream-analysis-btn" class="p-4 rounded-lg border border-peaceful-light/30 hover:border-peaceful transition-all cursor-pointer feature-card">
+                        <div class="text-2xl mb-2 animate-pulse">🔍</div>
+                        <div class="font-medium">Rüya Analizi</div>
+                        <div class="text-sm opacity-70">Rüyanızın anlamını keşfedin</div>
+                    </div>
+                    
+                    <div id="dream-series-btn" class="p-4 rounded-lg border border-peaceful-light/30 hover:border-peaceful transition-all cursor-pointer feature-card">
+                        <div class="text-2xl mb-2 animate-pulse">📚</div>
+                        <div class="font-medium">Rüya Serisi</div>
+                        <div class="text-sm opacity-70">Devam eden rüya hikayeleri oluşturun</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 rounded-lg bg-black/5 flex items-center">
+                    <i class="fas fa-info-circle mr-3 text-xl"></i>
+                    <div>
+                        <div class="font-medium">Tüm gelişmiş özellikler tamamen ücretsizdir ve sınırsız kullanılabilir.</div>
+                        <div class="text-sm opacity-70">Gelişmiş özellikleri kullanmak için Gemini API anahtarı gereklidir. API anahtarınızı ayarlamak için sağ üst köşedeki dişli simgesine tıklayın.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dream Library -->
+            <div class="dream-card dream-card-peaceful mb-6 animate-fade-in">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="mr-2 animate-float">📚</span> Rüya Kütüphanesi
+                </h2>
+                
+                <div id="empty-library" class="text-center p-8 hidden">
+                    <div class="text-6xl mb-4 opacity-30">💤</div>
+                    <div class="font-medium mb-2">Rüya kütüphaneniz boş</div>
+                    <div class="text-sm opacity-70">Oluşturduğunuz rüyalar burada görünecek</div>
+                </div>
+                
+                <div id="dream-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dream cards will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Feature Info Modal (initially hidden) -->
+    <div id="feature-info-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 relative">
+            <button id="close-feature-info-modal" class="absolute top-4 right-4 p-2 rounded-full hover:bg-black/10 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div id="feature-info-content">
+                <!-- Feature info content will be added here dynamically -->
+            </div>
+            
+            <div class="flex justify-end mt-4">
+                <button id="close-feature-info" class="btn btn-peaceful px-4 py-2">
+                    <i class="fas fa-check mr-1"></i> Anladım
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enhanced Dream Input Modal (initially hidden) -->
+    <div id="enhanced-dream-input-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 relative">
+            <button id="close-enhanced-input" class="absolute top-4 right-4 p-2 rounded-full hover:bg-black/10 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold mb-4">Gelişmiş Rüya Girdisi</h3>
+            
+            <div class="mb-4">
+                <label for="enhanced-seed" class="block mb-2 font-medium">
+                    Detaylı Rüya Tohumu
+                </label>
+                <textarea
+                    id="enhanced-seed"
+                    class="input-field input-peaceful h-48 w-full"
+                    placeholder="Rüyanız için daha detaylı bir açıklama yazın..."
+                ></textarea>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="close-enhanced-input" class="btn btn-peaceful bg-black/10 hover:bg-black/20">
+                    <i class="fas fa-times mr-2"></i> İptal
+                </button>
+                <button id="apply-enhanced-seed" class="btn btn-peaceful">
+                    <i class="fas fa-check mr-2"></i> Uygula
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dream Analysis Modal (initially hidden) -->
+    <div id="dream-analysis-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button id="close-dream-analysis" class="absolute top-4 right-4 p-2 rounded-full hover:bg-black/10 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-brain mr-2"></i> Rüya Analizi
+            </h3>
+            
+            <div id="analysis-content" class="prose prose-sm max-w-none">
+                <!-- Analysis content will be added here dynamically -->
+            </div>
+            
+            <div class="flex justify-end mt-4">
+                <button id="close-dream-analysis" class="btn btn-peaceful px-4 py-2">
+                    <i class="fas fa-check mr-1"></i> Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dream Series Modal (initially hidden) -->
+    <div id="dream-series-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button id="close-dream-series" class="absolute top-4 right-4 p-2 rounded-full hover:bg-black/10 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold mb-4 flex items-center">
+                <i class="fas fa-book mr-2"></i> Rüya Serisi
+            </h3>
+            
+            <div id="series-content" class="prose prose-sm max-w-none">
+                <!-- Series content will be added here dynamically -->
+            </div>
+            
+            <div class="flex justify-end mt-4">
+                <button id="close-dream-series" class="btn btn-peaceful px-4 py-2">
+                    <i class="fas fa-check mr-1"></i> Kapat
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 max-w-sm hidden animate-slide-up">
+        <div id="notification-content" class="flex items-center">
+            <!-- Notification content will be added here dynamically -->
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center z-50 hidden">
+        <div class="animate-spin mb-4">
+            <div class="w-16 h-16 border-4 border-peaceful border-t-transparent rounded-full"></div>
+        </div>
+        <div class="text-white text-lg font-medium">Rüyanız oluşturuluyor...</div>
+        <div class="text-white/70 text-sm mt-2">Bu işlem birkaç saniye sürebilir</div>
+    </div>
+    
+    <script src="js/gemini-api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
